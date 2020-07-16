@@ -1,10 +1,11 @@
 import Mongoose from "mongoose";
+import Log from "./Log";
 import User from "../schema/User";
+import DBHelper from "./schema/DBHelper";
 /**
  * @description Mongo DB 관리 클래스
  */
-class MongoDBConnect {
-	public isDatabaseConnect: boolean = false;
+class MongoDBHelper extends DBHelper<Mongoose.Connection> {
 	private db: Mongoose.Connection;
 
 	public readonly env: string = process.env.NODE_ENV || "development"; // 개발 환경
@@ -17,14 +18,18 @@ class MongoDBConnect {
 		this.db = Mongoose.connection;
 		// 접속 실패 시
 		this.db.on("error", () => {
-			console.log("db connect fail");
+			Log.e("Mongo DB connected fail");
+			Log.e("Server stop");
 			this.isDatabaseConnect = false;
 			process.exit();
 		});
 		// 접속 성공 시
 		this.db.once("open", () => {
-			console.log("db connect clear");
+			Log.c("Mongo DB connected");
 			this.isDatabaseConnect = true;
+			User.createTestUser().then((user) => {
+				if (user) Log.c("Create Test User");
+			});
 		});
 
 		Mongoose.set("useCreateIndex", true);
@@ -39,4 +44,4 @@ class MongoDBConnect {
 		return this.db;
 	}
 }
-export default new MongoDBConnect();
+export default new MongoDBHelper();

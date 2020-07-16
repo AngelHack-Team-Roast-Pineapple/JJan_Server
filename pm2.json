@@ -1,7 +1,7 @@
 {
 	"apps": [
 		{
-			"name": "Naholo_BabJip_Backend",
+			"name": "NEM_TYPESCRIPT-V2",
 			"script": "./dist/src/app.js",
 			"autorestart": true,
 			"watch": false

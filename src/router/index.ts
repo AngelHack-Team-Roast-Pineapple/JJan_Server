@@ -1,8 +1,11 @@
 import { Router } from "express";
-import AuthRouter from "./auth/auth.router";
+import RouterManager, { RouterPath } from "../modules/Router-Manager";
 
 const router = Router();
 
-router.use("/auth", AuthRouter);
+// 라우터 자동 검색
+RouterManager.getRouters().forEach((rp: RouterPath) => {
+	router.use(rp.path, rp.router);
+});
 
 export default router;
