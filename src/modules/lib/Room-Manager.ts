@@ -13,7 +13,7 @@ export interface Room {
 	invitationCode: string;
 }
 class RoomManager {
-	roomList: Room[];
+	roomList: Room[] = [];
 	private createInvitationCode(): string {
 		function createRandomNumber(n: number = 6) {
 			return (+new Date() * Math.floor((1 + Math.random()) * 10)).toString().slice(-n);
