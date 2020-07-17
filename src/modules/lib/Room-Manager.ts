@@ -33,7 +33,7 @@ class RoomManager {
 		return this.roomList.find((room) => room.roomName == roomName);
 	}
 	async createRoom(roomName: string, ownerToken: string, socketId: string): Promise<Room> {
-		if (!this.roomList.some((room) => room.roomName == roomName)) {
+		if (this.findByRoomName(roomName)) {
 			throw "이미 있는 방 이름입니다.";
 		} else {
 			let owner = await User.loginAuthentication(this.tokenToUser(ownerToken), true);
