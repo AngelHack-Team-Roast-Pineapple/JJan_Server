@@ -122,4 +122,4 @@
 
 > io.sockets.to(meetingName).emit("endRoulette")
 
-    string 술마실사람 _id 반환
+    loser: string 마실 사람

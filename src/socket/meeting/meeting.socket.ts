@@ -73,9 +73,14 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 
 	// 룰렛
 	socket.on("startRoulette", async (data) => {
+		console.log("startRoulette : ", data);
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		meeting.startGame("룰렛");
-		io.sockets.to(meeting.meetingName).emit("endRoulette", meeting.game.currentGame.loser);
+		io.sockets.to(meeting.meetingName).emit("endRoulette", [
+			{
+				loser: meeting.game.currentGame.loser,
+			},
+		]);
 	});
 
 	// 훈민정음
