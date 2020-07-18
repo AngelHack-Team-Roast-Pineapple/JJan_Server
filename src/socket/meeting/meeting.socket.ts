@@ -62,9 +62,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	socket.on("joinMeeting", async (data) => {
 		console.log("joinMeeting : ", data);
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
-		socket.leaveAll();
 		socket.join(meeting.meetingName);
-		console.log(socket.rooms);
 	});
 	// socket.on("startGameMeeting", async (data) => {
 	// 	console.log("startGameMeeting : ", data);
@@ -88,7 +86,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 			},
 		]);
 		console.log(meeting.meetingName, "endRoulette emit");
-		io.sockets.emit("endRoulette", [
+		io.sockets.to(meeting.meetingName).emit("endRoulette", [
 			{
 				loser: meeting.game.currentGame.loser,
 			},
