@@ -26,6 +26,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 
 					io.sockets.to(room1Name).emit("matchingMeeting", [meeting]);
 					io.sockets.to(room2Name).emit("matchingMeeting", [meeting]);
+
 					console.log(meeting);
 					console.log(room1Name, room2Name, "meeting created");
 				}

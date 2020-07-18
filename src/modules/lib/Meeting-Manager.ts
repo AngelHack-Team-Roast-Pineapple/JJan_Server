@@ -18,6 +18,7 @@ class Meeting {
 	getMeetingMembersId(): ObjectID[] {
 		let room1Users = this.room1.users;
 		let room2Users = this.room2.users;
+		console.log(room1Users, room2Users, room1Users.concat(room2Users));
 		return room1Users.concat(room2Users);
 	}
 	startGame(gameName: GAME_NAME) {
