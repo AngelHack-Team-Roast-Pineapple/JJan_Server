@@ -31,11 +31,19 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	});
 
 	// 훈민정음
-	socket.on("startHunMinJeongEum", async (data) => {});
-	socket.on("speakHunMinJeongEum", async (data) => {});
+	socket.on("startHunMinJeongEum", async (data) => {
+		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+	});
+	socket.on("speakHunMinJeongEum", async (data) => {
+		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+	});
 	// 지하철
-	socket.on("startSubway", async (data) => {});
-	socket.on("visitSubway", async (data) => {});
+	socket.on("startSubway", async (data) => {
+		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+	});
+	socket.on("visitSubway", async (data) => {
+		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+	});
 };
 
 export default socketRouter;

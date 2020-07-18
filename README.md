@@ -94,6 +94,17 @@
     meetingName: string 미팅 고유 이름
     gameName: string 게임 이름 (훈민정음|지하철|룰렛)
 
+> io.sockets.to(meetingName).emit("startGameMetting")
+
+    string 게임 이름 (훈민정음|지하철|룰렛)
+
+-   startRoulette
+
+> socket.on('startRoulette')
+
+    meetingName: string 미팅 고유 이름
+    gameName: string 게임 이름 (훈민정음|지하철|룰렛)
+
 > io.sockets.to(meetingName).emit("endRoulette")
 
     string 술마실사람 _id 반환
