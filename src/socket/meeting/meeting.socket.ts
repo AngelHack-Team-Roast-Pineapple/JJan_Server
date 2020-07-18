@@ -24,13 +24,17 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room1Name));
 					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room2Name));
 
-					io.sockets.to(room1Name).emit("matchingMeeting", {
-						meetingName: "심효근은 언제나 밥을 해줬어",
-					});
-					io.sockets.to(room2Name).emit("matchingMeeting", {
-						meetingName: "심효근은 언제나 밥을 해줬어",
-						// meetingName: meeting.meetingName,
-					});
+					io.sockets.to(room1Name).emit("matchingMeeting", [
+						{
+							meetingName: "심효근은 언제나 밥을 해줬어",
+						},
+					]);
+					io.sockets.to(room2Name).emit("matchingMeeting", [
+						{
+							meetingName: "심효근은 언제나 밥을 해줬어",
+							// meetingName: meeting.meetingName,
+						},
+					]);
 					console.log(meeting);
 					console.log(room1Name, room2Name, "meeting created");
 				}
