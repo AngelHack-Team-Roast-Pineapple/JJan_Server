@@ -64,3 +64,36 @@
 > io.sockets.to(room.roomName).emit('getRoomMembers')
 
     [...users]: 접속된 유저들 정보 ( GET /auth/user 이랑 똑같은 형식 )
+
+-   createMeeting
+
+> socket.on('createMeeting')
+
+    room1.invitationCode: string 초대코드1
+    room2.invitationCode: string 초대코드2
+
+> io.sockets.to(room1.roomName).emit('createMeeting'); , io.sockets.to(room2.roomName).emit('createMeeting');
+
+    meetingName: string 미팅 고유 이름 ( 랜덤 숫자 )
+    room1: Room 방1 정보
+    room2: Room 방2 정보
+    game: GameManager 게임 매니저;
+
+    이 이벤트가 돌아갔을 떄 socket.emit(joinMeeting,{meetingName:string}) 해줘야함
+
+-   joinMeeting
+
+> socket.on('joinMeeting')
+
+    meetingName: string 미팅 고유 이름
+
+-   startGameMetting
+
+> socket.on('startGameMetting')
+
+    meetingName: string 미팅 고유 이름
+    gameName: string 게임 이름 (훈민정음|지하철|룰렛)
+
+> io.sockets.to(meetingName).emit("endRoulette")
+
+    string 술마실사람 _id 반환

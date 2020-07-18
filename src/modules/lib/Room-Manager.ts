@@ -30,6 +30,9 @@ class RoomManager {
 	findByRoomName(roomName: string): Room {
 		return this.roomList.find((room) => room.roomName == roomName);
 	}
+	findByInvitationCode(invitationCode: string): Room {
+		return this.roomList.find((room) => room.invitationCode == invitationCode);
+	}
 	async createRoom(roomName: string, ownerToken: string, socketId: string): Promise<Room> {
 		if (this.findByRoomName(roomName)) {
 			throw "이미 있는 방 이름입니다.";
@@ -59,7 +62,7 @@ class RoomManager {
 		}
 	}
 	async joinRoom(invitationCode: string, userToken: string, socketId: string): Promise<Room> {
-		let room: Room = this.roomList.find((room) => room.invitationCode == invitationCode);
+		let room: Room = this.findByInvitationCode(invitationCode);
 		if (!room) throw "만료된 초대코드입니다.";
 		else {
 			let user = await User.loginAuthentication(this.tokenToUser(userToken), true);

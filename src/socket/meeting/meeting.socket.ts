@@ -4,16 +4,14 @@ import RoomManager from "../../modules/lib/Room-Manager";
 MeetingManager; // 이거쓰면된다
 const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket) => {
 	socket.on("createMeeting", async (data) => {
-		let room1 = RoomManager.findByRoomName(data.room1.roomName);
-		let room2 = RoomManager.findByRoomName(data.room2.roomName);
-		room1.invitationCode;
+		let room1 = RoomManager.findByInvitationCode(data.room1.invitationCode);
+		let room2 = RoomManager.findByInvitationCode(data.room2.invitationCode);
 		let meeting = MeetingManager.createMeeting(room1, room2);
 		io.sockets.to(room1.roomName).emit("createMeeting", meeting);
 		io.sockets.to(room2.roomName).emit("createMeeting", meeting);
 	});
 	socket.on("joinMeeting", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
-
 		socket.join(meeting.meetingName);
 	});
 	socket.on("startGameMetting", async (data) => {
