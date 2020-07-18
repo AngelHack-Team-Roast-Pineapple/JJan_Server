@@ -11,17 +11,19 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let room1: Room | undefined = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
 		let room2: Room | undefined = matchingTeams.find((r) => r.users.length == room1.users.length);
 		console.log(room1, room2);
-		if (!room2) {
-			matchingTeams.push(room1);
-		} else {
-			if (room1 && room2) {
-				let meeting = MeetingManager.createMeeting(room1, room2);
+		if (room1 != room2) {
+			if (!room2) {
+				matchingTeams.push(room1);
+			} else {
+				if (room1 && room2) {
+					let meeting = MeetingManager.createMeeting(room1, room2);
 
-				matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room1.roomName));
-				matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room2.roomName));
+					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room1.roomName));
+					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room2.roomName));
 
-				io.sockets.to(room1.roomName).emit("matchingMeeting", meeting);
-				io.sockets.to(room2.roomName).emit("matchingMeeting", meeting);
+					io.sockets.to(room1.roomName).emit("matchingMeeting", meeting);
+					io.sockets.to(room2.roomName).emit("matchingMeeting", meeting);
+				}
 			}
 		}
 	});
