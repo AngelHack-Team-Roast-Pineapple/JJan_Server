@@ -15,14 +15,20 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let room2Name = room2 ? room2.roomName : "";
 		if (room1Name != room2Name) {
 			if (!room2) {
-				matchingTeams.push(room1);
+				matchingTeams.push(Object.assign({}, room1));
 				console.log(room1Name, "meeting wait");
 			} else {
 				if (room1 && room2) {
 					let meeting = MeetingManager.createMeeting(room1, room2);
 
-					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room1Name));
-					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room2Name));
+					matchingTeams.splice(
+						matchingTeams.findIndex((r) => r.roomName == room1Name),
+						1
+					);
+					matchingTeams.splice(
+						matchingTeams.findIndex((r) => r.roomName == room2Name),
+						1
+					);
 
 					io.sockets.to(room1Name).emit("matchingMeeting", [
 						{
