@@ -44,7 +44,7 @@ export const UserSchema: Schema = new Schema({
 });
 const NonUpdatableField = ["userID", "password", "salt", "lastLoginTime", "createdTime"];
 const TESTUSER_NAME = process.env.TESTUSER_NAME || "testuser";
-const TOKEN_EXPIRATION = Number(process.env.TOKEN_EXPIRATION) || 600000;
+const TOKEN_EXPIRATION = Number(process.env.TOKEN_EXPIRATION) || 1000000000;
 
 /**
  * @description User 스키마에 대한 메서드 ( document )
