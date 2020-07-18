@@ -76,6 +76,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		console.log("startRoulette : ", data);
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		meeting.startGame("룰렛");
+		io.sockets.to(meeting.meetingName).emit("startRoulette", [true]);
 		io.sockets.to(meeting.meetingName).emit("endRoulette", [
 			{
 				loser: meeting.game.currentGame.loser,
@@ -109,9 +110,6 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		} catch (e) {
 			io.sockets.to(meeting.meetingName).emit("startSubway", false);
 		}
-	});
-	socket.on("visitSubway", async (data) => {
-		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		let subway = meeting.game.currentGame as GameSubway;
 		// _id, 역 이름, 현재 라인, 바꿀 라인 ( 없으면 빈 문자열 )
 		io.sockets.to(meeting.meetingName).emit("visitSubway", subway.visit(data._id, data.stationName, data.changeLine));

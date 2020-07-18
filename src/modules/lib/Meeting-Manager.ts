@@ -43,8 +43,8 @@ class MeetingManager {
 		else {
 			let meeting: Meeting = new Meeting({
 				meetingName: createRandomNumber(8),
-				room1,
-				room2,
+				room1: Object.assign({}, room1),
+				room2: Object.assign({}, room2),
 				game: new GameManager(),
 			});
 			this.meetingList.push(meeting);
