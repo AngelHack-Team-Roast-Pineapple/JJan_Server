@@ -39,7 +39,7 @@ export class GameHunMinJeongEum extends Game {
 	// init 함수
 	start() { 
 	}
-	setKeyword(_id, keyword) {
+	setKeyword(keyword) {
 		this.keyword = keyword
 	}
 	speakingWords(_id: ObjectID, word: string) {
@@ -123,6 +123,9 @@ export class GameSubway extends Game {
 				return true;
 			}
 		}
+	}
+	setNowLine (nowLine) {
+		this.nowLine = nowLine
 	}
 	init(stationInfo) {
 		this.nowLine = "";

@@ -81,13 +81,13 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		meeting.startGame("룰렛");
 		console.log(meeting.meetingName, "startRoulette emit");
-		io.sockets.to(meeting.meetingName).emit("startRoulette", [
+		io.sockets.emit("startRoulette", [
 			{
 				result: true,
 			},
 		]);
 		console.log(meeting.meetingName, "endRoulette emit");
-		io.sockets.to(meeting.meetingName).emit("endRoulette", [
+		io.sockets.emit("endRoulette", [
 			{
 				loser: meeting.game.currentGame.loser,
 			},
@@ -99,6 +99,8 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		try {
 			meeting.startGame("훈민정음");
+			let hunMinJeongEum = meeting.game.currentGame as GameHunMinJeongEum;
+			// hunMinJeongEum.setKeyword(data._id, data.keyword);
 			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", true);
 		} catch (e) {
 			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", false);
@@ -126,6 +128,8 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		try {
 			meeting.startGame("지하철");
+			let subway = meeting.game.currentGame as GameSubway;
+			subway.setNowLine(data.nowLine);
 			io.sockets.to(meeting.meetingName).emit("startSubway", true);
 		} catch (e) {
 			io.sockets.to(meeting.meetingName).emit("startSubway", false);
@@ -137,7 +141,8 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	socket.on("visitSubway", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		let subway = meeting.game.currentGame as GameSubway;
-		io.sockets.to(meeting.meetingName).emit("visitSubway", subway.visit(data._id, data.stationName, data.changeLine));
+		let result = subway.visit(data._id, data.stationName, data.changeLine);
+		io.sockets.to(meeting.meetingName).emit("visitSubway", result ? [data.stationName] : [{ stationName: data.stationName, loser: meeting.game.currentGame.loser }]);
 	});
 };
 
