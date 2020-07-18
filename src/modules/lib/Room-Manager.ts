@@ -27,7 +27,7 @@ class RoomManager {
 		let userData: IUserToken = jwt.decode(token.split(" ")[1], process.env.SECRET_KEY || "SECRET");
 		return userData;
 	}
-	private findByRoomName(roomName: string): Room {
+	findByRoomName(roomName: string): Room {
 		return this.roomList.find((room) => room.roomName == roomName);
 	}
 	async createRoom(roomName: string, ownerToken: string, socketId: string): Promise<Room> {
