@@ -10,7 +10,6 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		console.log("matchingMeeting : ", data);
 		let room1: Room | undefined = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
 		let room2: Room | undefined = matchingTeams.find((r) => r.users.length == room1.users.length);
-		console.log(room1, room2);
 		let room1Name = room1 ? room1.roomName : "";
 		let room2Name = room2 ? room2.roomName : "";
 		if (room1Name != room2Name) {
@@ -21,13 +20,19 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 				if (room1 && room2) {
 					let meeting = MeetingManager.createMeeting(room1, room2);
 
-					matchingTeams.splice(
-						matchingTeams.findIndex((r) => r.roomName == room1Name),
-						1
+					console.log(
+						"split data1: ",
+						matchingTeams.splice(
+							matchingTeams.findIndex((r) => r.roomName == room1Name),
+							1
+						)
 					);
-					matchingTeams.splice(
-						matchingTeams.findIndex((r) => r.roomName == room2Name),
-						1
+					console.log(
+						"split data1: ",
+						matchingTeams.splice(
+							matchingTeams.findIndex((r) => r.roomName == room2Name),
+							1
+						)
 					);
 
 					io.sockets.to(room1Name).emit("matchingMeeting", [
@@ -40,7 +45,6 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 							meetingName: meeting.meetingName,
 						},
 					]);
-					console.log(meeting);
 					console.log(room1Name, room2Name, "meeting created");
 				}
 			}
