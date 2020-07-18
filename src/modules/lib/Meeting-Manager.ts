@@ -21,6 +21,7 @@ class Meeting {
 		return room1Users.concat(room2Users);
 	}
 	startGame(gameName: GAME_NAME) {
+		console.log("getMeetingMembersId : ", this.getMeetingMembersId());
 		this.game.startGame(gameName, this.getMeetingMembersId());
 	}
 }

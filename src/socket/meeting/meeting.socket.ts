@@ -11,7 +11,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let room1: Room | undefined = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
 		let room2: Room | undefined = matchingTeams.find((r) => r.users.length == room1.users.length);
 		console.log(room1, room2);
-		if (room1 != room2) {
+		if (room1.roomName != room2.roomName) {
 			if (!room2) {
 				matchingTeams.push(room1);
 			} else {
@@ -86,6 +86,9 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	});
 	socket.on("visitSubway", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+		let subway = meeting.game.currentGame as GameSubway;
+		// _id, 역 이름, 현재 라인, 바꿀 라인 ( 없으면 빈 문자열 )
+		io.sockets.to(meeting.meetingName).emit("visitSubway", subway.visit(data._id, data.stationName, data.changeLine));
 	});
 };
 

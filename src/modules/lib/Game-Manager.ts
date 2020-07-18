@@ -103,19 +103,15 @@ export class GameSubway extends Game {
 		this.init(stationInfo);
 		return true;
 	}
-	visit(_id: ObjectID, stationName: string, currentLine: string, changeLine?: string) {
+	visit(_id: ObjectID, stationName: string, changeLine?: string) {
 		let stationIdx = this.stationInfo.findIndex((station) => {
-			station.stationName === stationName;
+			station.stationName === stationName && station.line.indexOf(this.nowLine) !== -1;
 		});
 		if (stationIdx === -1) {
 			super.setLoser(_id);
 			return false;
 		} else {
-			if (this.stationInfo[stationIdx].line.indexOf(currentLine) === -1) {
-				super.setLoser(_id);
-				return false;
-			} else {
-				if (this.stationInfo[stationIdx].line.indexOf(changeLine) === -1) {
+				if (changeLine === '' || this.stationInfo[stationIdx].line.indexOf(changeLine) === -1) {
 					super.setLoser(_id);
 					return false;
 				} else {
@@ -123,7 +119,7 @@ export class GameSubway extends Game {
 					this.nowLine = changeLine;
 					return true;
 				}
-			}
+			
 		}
 	}
 	init(stationInfo) {
