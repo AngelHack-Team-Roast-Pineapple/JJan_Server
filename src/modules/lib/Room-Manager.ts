@@ -1,7 +1,6 @@
 import { ObjectID } from "bson";
 import User, { IUserSchema, IUserToken } from "../../schema/User";
 import jwt from "jwt-simple";
-import socket from "../../socket";
 
 export interface Room {
 	roomName: string;
@@ -18,7 +17,6 @@ class RoomManager {
 		function createRandomNumber(n: number = 6) {
 			return (+new Date() * Math.floor((1 + Math.random()) * 10)).toString().slice(-n);
 		}
-
 		let randomNumber: string;
 		do {
 			randomNumber = createRandomNumber(8);
@@ -26,7 +24,7 @@ class RoomManager {
 		return randomNumber;
 	}
 	private tokenToUser(token: string): IUserToken {
-		let userData: IUserToken = jwt.decode(token, process.env.SECRET_KEY || "SECRET");
+		let userData: IUserToken = jwt.decode(token.split(" ")[1], process.env.SECRET_KEY || "SECRET");
 		return userData;
 	}
 	private findByRoomName(roomName: string): Room {
