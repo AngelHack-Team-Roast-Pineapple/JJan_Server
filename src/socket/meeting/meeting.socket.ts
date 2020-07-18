@@ -24,16 +24,8 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room1Name));
 					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room2Name));
 
-					io.sockets.to(room1Name).emit("matchingMeeting", [
-						{
-							meetingName: meeting.meetingName,
-						},
-					]);
-					io.sockets.to(room2Name).emit("matchingMeeting", [
-						{
-							meetingName: meeting.meetingName,
-						},
-					]);
+					io.sockets.to(room1Name).emit("matchingMeeting", [meeting]);
+					io.sockets.to(room2Name).emit("matchingMeeting", [meeting]);
 					console.log(meeting);
 					console.log(room1Name, room2Name, "meeting created");
 				}
@@ -45,8 +37,8 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let room1 = RoomManager.findByInvitationCode(data.room1.invitationCode);
 		let room2 = RoomManager.findByInvitationCode(data.room2.invitationCode);
 		let meeting = MeetingManager.createMeeting(room1, room2);
-		io.sockets.to(room1.roomName).emit("createMeeting", [{ meeting: meeting }]);
-		io.sockets.to(room2.roomName).emit("createMeeting", [{ meeting: meeting }]);
+		io.sockets.to(room1.roomName).emit("createMeeting", [meeting]);
+		io.sockets.to(room2.roomName).emit("createMeeting", [meeting]);
 	});
 	socket.on("joinMeeting", async (data) => {
 		console.log("joinMeeting : ", data);
