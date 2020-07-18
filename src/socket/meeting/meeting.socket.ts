@@ -1,7 +1,8 @@
 import { SocketRouter } from "../../modules/SocketIO-Manager";
 import MeetingManager from "../../modules/lib/Meeting-Manager";
 import RoomManager, { Room } from "../../modules/lib/Room-Manager";
-MeetingManager; // 이거쓰면된다
+import { GameHunMinJeongEum, GameSubway, GameRoulette } from "../../modules/lib/Game-Manager";
+
 const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket) => {
 	let matchingTeams: Room[] = [];
 	socket.on("matchingMeeting", async (data) => {
@@ -31,12 +32,12 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		socket.join(meeting.meetingName);
 	});
-	socket.on("startGameMeeting", async (data) => {
-		console.log("startGameMeeting : ", data);
-		let meeting = MeetingManager.findByMeetingName(data.meetingName);
-		meeting.startGame(data.gameName);
-		io.sockets.to(meeting.meetingName).emit("startGameMeeting", data.gameName);
-	});
+	// socket.on("startGameMeeting", async (data) => {
+	// 	console.log("startGameMeeting : ", data);
+	// 	let meeting = MeetingManager.findByMeetingName(data.meetingName);
+	// 	meeting.startGame(data.gameName);
+	// 	io.sockets.to(meeting.meetingName).emit("startGameMeeting", data.gameName);
+	// });
 	socket.on("giveChocoEmong", async (data) => {});
 
 	// 게임 연결 시 io.sockets.to(meetingName)
@@ -44,20 +45,36 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	// 룰렛
 	socket.on("startRoulette", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+		meeting.startGame("룰렛");
 		io.sockets.to(meeting.meetingName).emit("endRoulette", meeting.game.currentGame.loser);
 	});
 
 	// 훈민정음
 	socket.on("startHunMinJeongEum", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+		try {
+			meeting.startGame("훈민정음");
+			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", true);
+		} catch (e) {
+			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", false);
+		}
 	});
 	socket.on("speakHunMinJeongEum", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+		let hunMinJeongEum = meeting.game.currentGame as GameHunMinJeongEum;
+
+		hunMinJeongEum.speakingWords(data._id, data.word);
+		// {idx,result:boolean}
 	});
 	// 지하철
 	socket.on("startSubway", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
-		// io.sockets.to(meeting.meetingName).emit("endStartSubway", meeting.game.currentGame.s)
+		try {
+			meeting.startGame("지하철");
+			io.sockets.to(meeting.meetingName).emit("startSubway", true);
+		} catch (e) {
+			io.sockets.to(meeting.meetingName).emit("startSubway", false);
+		}
 	});
 	socket.on("visitSubway", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);

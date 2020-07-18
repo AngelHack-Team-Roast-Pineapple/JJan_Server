@@ -21,7 +21,7 @@ abstract class Game {
 
 // TEST CODE
 
-class GameHunMinJeongEum extends Game {
+export class GameHunMinJeongEum extends Game {
 	gameName = "훈민정음";
 	duplicateWord = [];
 	keyword = "";
@@ -88,7 +88,7 @@ type SUBWAY_LINE =
 
 (async () => {})();
 
-class GameSubway extends Game {
+export class GameSubway extends Game {
 	gameName = "지하철";
 	stationInfo = [];
 	visitedStation = [];
@@ -131,7 +131,7 @@ class GameSubway extends Game {
 		this.stationInfo = stationInfo;
 	}
 }
-class GameRoulette extends Game {
+export class GameRoulette extends Game {
 	gameName = "룰렛";
 	getRoulette(): ObjectID {
 		return super.member[Math.floor(Math.random() * super.member.length)];
