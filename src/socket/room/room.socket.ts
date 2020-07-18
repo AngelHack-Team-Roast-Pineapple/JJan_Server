@@ -12,12 +12,12 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		// 룸 생성 성공 시 해당 룸 반환
 		socket.emit("createRoom", room);
 		// 룸 생성 성공 시 해당 름 유저 정보 반환
-		socket.emit("getRoomMembers", RoomManager.getRoomMembers(room.roomName));
+		socket.emit("getRoomMembers", await RoomManager.getRoomMembers(room.roomName));
 	});
 	// 방 유저 정보 가져오기
 	socket.on("getRoomMembers", async (data) => {
 		// 룸 이름을 받으면 름 유저 정보 반환
-		socket.emit("getRoomMembers", RoomManager.getRoomMembers(data.roomName));
+		socket.emit("getRoomMembers", await RoomManager.getRoomMembers(data.roomName));
 	});
 	// 방 가입
 	socket.on("joinRoom", async (data) => {
@@ -29,7 +29,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		// 룸 가입 성공 시 해당 룸 반환
 		socket.emit("joinRoom", room);
 		// 방에 가입된 모든 유저들에게 유저 정보 반환
-		io.sockets.to(room.roomName).emit("getRoomMembers", RoomManager.getRoomMembers(room.roomName));
+		io.sockets.to(room.roomName).emit("getRoomMembers", await RoomManager.getRoomMembers(room.roomName));
 	});
 	// 방 나가기
 	socket.on("leaveRoom", async (data) => {
