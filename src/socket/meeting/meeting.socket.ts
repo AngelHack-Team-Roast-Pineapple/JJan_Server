@@ -21,11 +21,15 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 				if (room1 && room2) {
 					let meeting = MeetingManager.createMeeting(room1, room2);
 
-					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room1.roomName));
-					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room2.roomName));
+					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room1Name));
+					matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room2Name));
 
-					io.sockets.to(room1.roomName).emit("matchingMeeting", meeting);
-					io.sockets.to(room2.roomName).emit("matchingMeeting", meeting);
+					io.sockets.to(room1Name).emit("matchingMeeting", {
+						meetingName: meeting.meetingName,
+					});
+					io.sockets.to(room2Name).emit("matchingMeeting", {
+						meetingName: meeting.meetingName,
+					});
 
 					console.log(room1Name, room2Name, "meeting created");
 				}
