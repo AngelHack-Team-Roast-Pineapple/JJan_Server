@@ -17,10 +17,8 @@ class Meeting {
 		return await User.find({ _id: this.getMeetingMembersId() });
 	}
 	getMeetingMembersId(): ObjectID[] {
-		console.log(this);
 		let room1Users = this.room1.users;
 		let room2Users = this.room2.users;
-		console.log(room1Users, room2Users, room1Users.concat(room2Users));
 		return this.users;
 	}
 	startGame(gameName: GAME_NAME) {

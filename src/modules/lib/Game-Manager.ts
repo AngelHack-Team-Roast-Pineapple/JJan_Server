@@ -110,15 +110,14 @@ export class GameSubway extends Game {
 			super.setLoser(_id);
 			return false;
 		} else {
-				if (changeLine === '' || this.stationInfo[stationIdx].line.indexOf(changeLine) === -1) {
-					super.setLoser(_id);
-					return false;
-				} else {
-					this.stationInfo.splice(stationIdx, 1);
-					this.nowLine = changeLine;
-					return true;
-				}
-			
+			if (changeLine === "" || this.stationInfo[stationIdx].line.indexOf(changeLine) === -1) {
+				super.setLoser(_id);
+				return false;
+			} else {
+				this.stationInfo.splice(stationIdx, 1);
+				this.nowLine = changeLine;
+				return true;
+			}
 		}
 	}
 	init(stationInfo) {
@@ -153,6 +152,7 @@ class GameManager {
 				this.currentGame = new GameSubway();
 				break;
 		}
+		console.log(users);
 		this.currentGame.init(users);
 		this.currentGame.start();
 		return this.currentGame;
