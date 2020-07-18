@@ -8,6 +8,7 @@ class Meeting {
 	room1: Room;
 	room2: Room;
 	game: GameManager;
+	users: ObjectID[];
 
 	constructor(data: any) {
 		Object.keys(data).forEach((key) => (this[key] = data[key]));
@@ -20,7 +21,7 @@ class Meeting {
 		let room1Users = this.room1.users;
 		let room2Users = this.room2.users;
 		console.log(room1Users, room2Users, room1Users.concat(room2Users));
-		return room1Users.concat(room2Users);
+		return this.users;
 	}
 	startGame(gameName: GAME_NAME) {
 		console.log("getMeetingMembersId : ", this.getMeetingMembersId());
@@ -47,6 +48,7 @@ class MeetingManager {
 				room1,
 				room2,
 				game: new GameManager(),
+				users: room1.users.concat(room2.users),
 			});
 			console.log(room1, room2);
 			this.meetingList.push(meeting);
