@@ -41,7 +41,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		// 룸 탈퇴 성공 시 해당 룸 반환
 		socket.emit("leaveRoom", room);
 		// 방에 가입된 모든 유저들에게 유저 정보 반환
-		io.sockets.to(room.roomName).emit("getRoomMembers", RoomManager.getRoomMembers(room.roomName));
+		io.sockets.to(room.roomName).emit("getRoomMembers", await RoomManager.getRoomMembers(room.roomName));
 	});
 
 	// TODO: 룸 정보 업데이트 구현해야함
