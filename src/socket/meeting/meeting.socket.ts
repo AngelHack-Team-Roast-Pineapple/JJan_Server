@@ -81,7 +81,12 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		meeting.startGame("룰렛");
 		console.log(meeting.meetingName, "startRoulette emit");
-		io.sockets.to(meeting.meetingName).emit("startRoulette", [true]);
+		io.sockets.to(meeting.meetingName).emit("startRoulette", [
+			{
+				result: true,
+			},
+		]);
+		console.log(meeting.meetingName, "endRoulette emit");
 		io.sockets.to(meeting.meetingName).emit("endRoulette", [
 			{
 				loser: meeting.game.currentGame.loser,
