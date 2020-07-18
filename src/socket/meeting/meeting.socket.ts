@@ -7,7 +7,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	socket.on("matchingMeeting", async (data) => {
 		console.log("matchingMeeting : ", data);
 		let room1: Room | undefined = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
-		let room2: Room | undefined = matchingTeams.find((r) => r.users.length == room2.users.length);
+		let room2: Room | undefined = matchingTeams.find((r) => r.users.length == room1.users.length);
 		if (!room2) {
 			matchingTeams.push(room1);
 		} else {
