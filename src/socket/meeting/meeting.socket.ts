@@ -3,8 +3,9 @@ import MeetingManager from "../../modules/lib/Meeting-Manager";
 import RoomManager, { Room } from "../../modules/lib/Room-Manager";
 import { GameHunMinJeongEum, GameSubway, GameRoulette } from "../../modules/lib/Game-Manager";
 
+const matchingTeams: Room[] = [];
+
 const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket) => {
-	let matchingTeams: Room[] = [];
 	socket.on("matchingMeeting", async (data) => {
 		console.log("matchingMeeting : ", data);
 		let room1: Room | undefined = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
@@ -15,6 +16,10 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		} else {
 			if (room1 && room2) {
 				let meeting = MeetingManager.createMeeting(room1, room2);
+
+				matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room1.roomName));
+				matchingTeams.splice(matchingTeams.findIndex((r) => r.roomName == room2.roomName));
+
 				io.sockets.to(room1.roomName).emit("matchingMeeting", meeting);
 				io.sockets.to(room2.roomName).emit("matchingMeeting", meeting);
 			}
