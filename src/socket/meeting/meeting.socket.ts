@@ -16,6 +16,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		if (room1Name != room2Name) {
 			if (!room2) {
 				matchingTeams.push(room1);
+				console.log(room1Name, "meeting wait");
 			} else {
 				if (room1 && room2) {
 					let meeting = MeetingManager.createMeeting(room1, room2);
@@ -25,6 +26,8 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 
 					io.sockets.to(room1.roomName).emit("matchingMeeting", meeting);
 					io.sockets.to(room2.roomName).emit("matchingMeeting", meeting);
+
+					console.log(room1Name, room2Name, "meeting created");
 				}
 			}
 		}
@@ -72,7 +75,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	socket.on("speakHunMinJeongEum", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		let hunMinJeongEum = meeting.game.currentGame as GameHunMinJeongEum;
-
+		// 마실 사람 정해야함
 		hunMinJeongEum.speakingWords(data._id, data.word);
 		// {idx,result:boolean}
 	});

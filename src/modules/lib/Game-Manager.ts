@@ -50,7 +50,6 @@ export class GameHunMinJeongEum extends Game {
 			return false;
 			// 지금 말한 사람이 먹음
 		}
-		return consonants === this.keyword;
 	}
 	check() {
 		// api
