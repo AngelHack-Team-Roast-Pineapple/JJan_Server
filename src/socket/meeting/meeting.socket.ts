@@ -11,7 +11,9 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let room1: Room | undefined = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
 		let room2: Room | undefined = matchingTeams.find((r) => r.users.length == room1.users.length);
 		console.log(room1, room2);
-		if (room1.roomName != room2.roomName) {
+		let room1Name = room1 ? room1.roomName : "";
+		let room2Name = room2 ? room2.roomName : "";
+		if (room1Name != room2Name) {
 			if (!room2) {
 				matchingTeams.push(room1);
 			} else {
