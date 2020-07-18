@@ -20,6 +20,7 @@
 	},
 	"homepage": "https://github.com/AngelHack-Team-Roast-Pineapple/Pluto_Shaping_Server#readme",
 	"dependencies": {
+		"axios": "^0.19.2",
 		"chalk": "^3.0.0",
 		"compression": "^1.7.4",
 		"connect-mongo": "^3.2.0",
@@ -48,6 +49,7 @@
 		"socket.io": "^2.3.0"
 	},
 	"devDependencies": {
+		"@types/axios": "^0.14.0",
 		"@types/chalk": "^2.2.0",
 		"@types/compression": "^1.7.0",
 		"@types/connect-redis": "0.0.14",
