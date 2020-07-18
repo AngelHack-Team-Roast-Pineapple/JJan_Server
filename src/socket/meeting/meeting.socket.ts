@@ -1,8 +1,22 @@
 import { SocketRouter } from "../../modules/SocketIO-Manager";
 import MeetingManager from "../../modules/lib/Meeting-Manager";
-import RoomManager from "../../modules/lib/Room-Manager";
+import RoomManager, { Room } from "../../modules/lib/Room-Manager";
 MeetingManager; // 이거쓰면된다
 const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket) => {
+	let matchingTeams: Room[] = [];
+	socket.on("matchingMeeting", async (data) => {
+		let room1 = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
+		let room2 = matchingTeams.find((r) => r.users.length == room2.users.length);
+		if (!room2) {
+			matchingTeams.push(room1);
+		} else {
+			if (room1 && room2) {
+				let meeting = MeetingManager.createMeeting(room1, room2);
+				io.sockets.to(room1.roomName).emit("matchingMeeting", meeting);
+				io.sockets.to(room2.roomName).emit("matchingMeeting", meeting);
+			}
+		}
+	});
 	socket.on("createMeeting", async (data) => {
 		let room1 = RoomManager.findByInvitationCode(data.room1.invitationCode);
 		let room2 = RoomManager.findByInvitationCode(data.room2.invitationCode);

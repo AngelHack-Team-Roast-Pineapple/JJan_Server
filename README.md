@@ -65,6 +65,21 @@
 
     [...users]: 접속된 유저들 정보 ( GET /auth/user 이랑 똑같은 형식 )
 
+-   matchingMeeting
+
+> socket.on('matchingMeeting')
+
+    roomName: 소속중인 방 이름
+
+> io.sockets.to(room1.roomName).emit('matchingMeeting'); , io.sockets.to(room2.roomName).emit('matchingMeeting');
+
+    meetingName: string 미팅 고유 이름 ( 랜덤 숫자 )
+    room1: Room 방1 정보
+    room2: Room 방2 정보
+    game: GameManager 게임 매니저;
+
+    이 이벤트가 돌아갔을 때 안드에서 socket.emit(joinMeeting,{meetingName:string}) 해줘야 방 가입이 성공적으로 이루어짐
+
 -   createMeeting
 
 > socket.on('createMeeting')

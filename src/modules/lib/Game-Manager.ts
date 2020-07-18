@@ -101,6 +101,7 @@ class GameSubway extends Game {
 	async start() {
 		var stationInfo = JSON.parse(await fs.readFile("data/train.json", "utf-8"));
 		this.init(stationInfo);
+		return true;
 	}
 	visit(_id: ObjectID, stationName: string, currentLine: string, changeLine?: string) {
 		let stationIdx = this.stationInfo.findIndex((station) => {
