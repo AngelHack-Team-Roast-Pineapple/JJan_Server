@@ -62,6 +62,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	socket.on("joinMeeting", async (data) => {
 		console.log("joinMeeting : ", data);
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+		socket.leaveAll();
 		socket.join(meeting.meetingName);
 	});
 	// socket.on("startGameMeeting", async (data) => {
@@ -79,6 +80,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		console.log("startRoulette : ", data);
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		meeting.startGame("룰렛");
+		console.log(meeting.meetingName, "startRoulette emit");
 		io.sockets.to(meeting.meetingName).emit("startRoulette", [true]);
 		io.sockets.to(meeting.meetingName).emit("endRoulette", [
 			{
@@ -101,7 +103,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		let hunMinJeongEum = meeting.game.currentGame as GameHunMinJeongEum;
 		// 마실 사람 정해야함
-		hunMinJeongEum.speakingWords(data._id, data.word);
+		io.sockets.to(meeting.meetingName).emit("speakHunMinJeoungEum", hunMinJeongEum.speakingWords(data._id, data.word));
 		// {idx,result:boolean}
 	});
 	// 지하철
@@ -116,6 +118,11 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let subway = meeting.game.currentGame as GameSubway;
 		// _id, 역 이름, 현재 라인, 바꿀 라인 ( 없으면 빈 문자열 )
 		io.sockets.to(meeting.meetingName).emit("visitSubway", subway.visit(data._id, data.stationName, data.changeLine));
+	});
+	socket.on("visitSubway", async (data) => {
+		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+		let subway = meeting.game.currentGame as GameSubway;
+		io.sockets.to(meeting.meetingName).emit("visitSubway", subway.visit(data._id, data.changeLine));
 	});
 };
 

@@ -128,7 +128,6 @@ export class GameSubway extends Game {
 export class GameRoulette extends Game {
 	gameName = "룰렛";
 	getRoulette(): ObjectID {
-		console.log("getRoulette", this.member);
 		return this.member[Math.floor(Math.random() * this.member.length)];
 	}
 	// init 함수

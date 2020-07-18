@@ -17,12 +17,9 @@ class Meeting {
 		return await User.find({ _id: this.getMeetingMembersId() });
 	}
 	getMeetingMembersId(): ObjectID[] {
-		let room1Users = this.room1.users;
-		let room2Users = this.room2.users;
 		return this.users;
 	}
 	startGame(gameName: GAME_NAME) {
-		console.log("getMeetingMembersId : ", this.getMeetingMembersId());
 		this.game.startGame(gameName, this.getMeetingMembersId());
 	}
 }
@@ -48,7 +45,6 @@ class MeetingManager {
 				game: new GameManager(),
 				users: room1.users.concat(room2.users),
 			});
-			console.log(room1, room2);
 			this.meetingList.push(meeting);
 			return meeting;
 		}
