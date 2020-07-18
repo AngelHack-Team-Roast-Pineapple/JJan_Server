@@ -5,8 +5,9 @@ MeetingManager; // 이거쓰면된다
 const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket) => {
 	let matchingTeams: Room[] = [];
 	socket.on("matchingMeeting", async (data) => {
-		let room1 = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
-		let room2 = matchingTeams.find((r) => r.users.length == room2.users.length);
+		console.log("matchingMeeting : ", data);
+		let room1: Room | undefined = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
+		let room2: Room | undefined = matchingTeams.find((r) => r.users.length == room2.users.length);
 		if (!room2) {
 			matchingTeams.push(room1);
 		} else {
@@ -18,6 +19,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		}
 	});
 	socket.on("createMeeting", async (data) => {
+		console.log("createMeeting : ", data);
 		let room1 = RoomManager.findByInvitationCode(data.room1.invitationCode);
 		let room2 = RoomManager.findByInvitationCode(data.room2.invitationCode);
 		let meeting = MeetingManager.createMeeting(room1, room2);
@@ -25,10 +27,12 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		io.sockets.to(room2.roomName).emit("createMeeting", meeting);
 	});
 	socket.on("joinMeeting", async (data) => {
+		console.log("joinMeeting : ", data);
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		socket.join(meeting.meetingName);
 	});
 	socket.on("startGameMeeting", async (data) => {
+		console.log("startGameMeeting : ", data);
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		meeting.startGame(data.gameName);
 		io.sockets.to(meeting.meetingName).emit("startGameMeeting", data.gameName);
@@ -40,7 +44,6 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	// 룰렛
 	socket.on("startRoulette", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
-
 		io.sockets.to(meeting.meetingName).emit("endRoulette", meeting.game.currentGame.loser);
 	});
 
