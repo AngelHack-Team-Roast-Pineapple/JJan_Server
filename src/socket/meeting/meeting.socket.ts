@@ -108,8 +108,18 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		let hunMinJeongEum = meeting.game.currentGame as GameHunMinJeongEum;
 		// 마실 사람 정해야함
-		io.sockets.to(meeting.meetingName).emit("speakHunMinJeoungEum", hunMinJeongEum.speakingWords(data._id, data.word));
+		let result = hunMinJeongEum.speakingWords(data._id, data.word);
+		if (result) io.sockets.to(meeting.meetingName).emit("speakHunMinJeoungEum", [data.word]);
+		else
+			io.sockets.to(meeting.meetingName).emit("endHunMinJeoungEum", [
+				{
+					word: data.word,
+					loser: meeting.game.currentGame.loser,
+				},
+			]);
+
 		// {idx,result:boolean}
+		// true, false 작동. true = 통과, false = 걸림
 	});
 	// 지하철
 	socket.on("startSubway", async (data) => {
@@ -127,7 +137,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	socket.on("visitSubway", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		let subway = meeting.game.currentGame as GameSubway;
-		io.sockets.to(meeting.meetingName).emit("visitSubway", subway.visit(data._id, data.changeLine));
+		io.sockets.to(meeting.meetingName).emit("visitSubway", subway.visit(data._id, data.stationName, data.changeLine));
 	});
 };
 

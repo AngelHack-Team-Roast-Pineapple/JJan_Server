@@ -47,6 +47,9 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	// TODO: 룸 정보 업데이트 구현해야함
 
 	// 연결이 끊어질 시 모든 방에서 나감
+	socket.on("connection", async (data) => {
+		console.log("CONNECT :", socket.id);
+	});
 	socket.on("disconnect", async (data) => {
 		socket.leaveAll();
 		RoomManager.resetUser(socket.id);

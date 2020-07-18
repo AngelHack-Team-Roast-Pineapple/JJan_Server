@@ -37,7 +37,11 @@ export class GameHunMinJeongEum extends Game {
 	}
 
 	// init 함수
-	start() {}
+	start() { 
+	}
+	setKeyword(_id, keyword) {
+		this.keyword = keyword
+	}
 	speakingWords(_id: ObjectID, word: string) {
 		let consonants: string = word
 			.split("")
