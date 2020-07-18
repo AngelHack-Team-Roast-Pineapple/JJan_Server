@@ -19,6 +19,8 @@ export interface IUserToken extends IUserDefaultLogin {
 export interface IUser extends IUserToken {
 	loginType?: string;
 	username?: string;
+	sex?: string;
+	age?: number;
 	email?: string;
 	salt?: string;
 	imgPath?: string;
@@ -30,6 +32,8 @@ export const UserSchema: Schema = new Schema({
 	loginType: { type: String, default: "local" },
 	username: { type: String, default: "User" },
 	email: { type: String, default: "" },
+	sex: { type: String, default: "" },
+	age: { type: Number, default: 18 },
 	password: { type: String, required: true, select: false },
 	userID: { type: String, required: true, unique: true },
 	salt: { type: String, default: process.env.SECRET_KEY || "SECRET", select: false },
