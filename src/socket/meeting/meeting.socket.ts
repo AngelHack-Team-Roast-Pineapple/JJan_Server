@@ -9,6 +9,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		console.log("matchingMeeting : ", data);
 		let room1: Room | undefined = RoomManager.findByRoomName(data.roomName); // 소속중인 방 이름
 		let room2: Room | undefined = matchingTeams.find((r) => r.users.length == room1.users.length);
+		console.log(room1, room2);
 		if (!room2) {
 			matchingTeams.push(room1);
 		} else {
