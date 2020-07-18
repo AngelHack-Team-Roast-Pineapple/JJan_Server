@@ -51,6 +51,7 @@ export class GameHunMinJeongEum extends Game {
 			this.duplicateWord.push(word);
 			return true;
 		} else {
+			super.setLoser(_id);
 			return false;
 			// 지금 말한 사람이 먹음
 		}

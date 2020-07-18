@@ -64,6 +64,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		socket.leaveAll();
 		socket.join(meeting.meetingName);
+		console.log(socket.rooms);
 	});
 	// socket.on("startGameMeeting", async (data) => {
 	// 	console.log("startGameMeeting : ", data);
@@ -100,7 +101,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		try {
 			meeting.startGame("훈민정음");
 			let hunMinJeongEum = meeting.game.currentGame as GameHunMinJeongEum;
-			// hunMinJeongEum.setKeyword(data._id, data.keyword);
+			hunMinJeongEum.setKeyword(data.keyword);
 			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", true);
 		} catch (e) {
 			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", false);
@@ -142,7 +143,11 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		let subway = meeting.game.currentGame as GameSubway;
 		let result = subway.visit(data._id, data.stationName, data.changeLine);
-		io.sockets.to(meeting.meetingName).emit("visitSubway", result ? [data.stationName] : [{ stationName: data.stationName, loser: meeting.game.currentGame.loser }]);
+		if (result) {
+			io.sockets.to(meeting.meetingName).emit("visitSubway", [data.stationName]);
+		} else {
+			io.sockets.to(meeting.meetingName).emit("endSubway", [{ stationName: data.stationName, loser: meeting.game.currentGame.loser }]);
+		}
 	});
 };
 
