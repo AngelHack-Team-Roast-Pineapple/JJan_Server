@@ -37,7 +37,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		// 초대 코드와 유저 토큰을 받아서 방 탈퇴
 		let room = await RoomManager.leaveRoom(data.roomName, data.userToken, socket.id);
 		// socket 방 탈퇴
-		socket.join(room.roomName);
+		socket.leave(room.roomName);
 		// 룸 탈퇴 성공 시 해당 룸 반환
 		socket.emit("leaveRoom", room);
 		// 방에 가입된 모든 유저들에게 유저 정보 반환
