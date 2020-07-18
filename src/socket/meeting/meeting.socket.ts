@@ -14,10 +14,10 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		socket.join(meeting.meetingName);
 	});
-	socket.on("startGameMetting", async (data) => {
+	socket.on("startGameMeeting", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		meeting.startGame(data.gameName);
-		io.sockets.to(meeting.meetingName).emit("startGameMetting", data.gameName);
+		io.sockets.to(meeting.meetingName).emit("startGameMeeting", data.gameName);
 	});
 	socket.on("giveChocoEmong", async (data) => {});
 
@@ -40,6 +40,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	// 지하철
 	socket.on("startSubway", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+		// io.sockets.to(meeting.meetingName).emit("endStartSubway", meeting.game.currentGame.s)
 	});
 	socket.on("visitSubway", async (data) => {
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);

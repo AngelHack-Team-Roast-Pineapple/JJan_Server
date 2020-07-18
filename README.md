@@ -87,14 +87,14 @@
 
     meetingName: string 미팅 고유 이름
 
--   startGameMetting
+-   startGameMeeting
 
-> socket.on('startGameMetting')
+> socket.on('startGameMeeting')
 
     meetingName: string 미팅 고유 이름
     gameName: string 게임 이름 (훈민정음|지하철|룰렛)
 
-> io.sockets.to(meetingName).emit("startGameMetting")
+> io.sockets.to(meetingName).emit("startGameMeeting")
 
     string 게임 이름 (훈민정음|지하철|룰렛)
 
