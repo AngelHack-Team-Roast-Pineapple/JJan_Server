@@ -127,7 +127,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		console.log(meeting.meetingName, "endRoulette emit");
 		io.sockets.to(meeting.meetingName).emit("endRoulette", [
 			{
-				loser: User.findOne({ _id: meeting.game.currentGame.loser }),
+				loser: (await User.findOne({ _id: meeting.game.currentGame.loser })).username,
 			},
 		]);
 	});
@@ -154,7 +154,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 			io.sockets.to(meeting.meetingName).emit("endHunMinJeoungEum", [
 				{
 					word: data.word,
-					loser: User.findOne({ _id: meeting.game.currentGame.loser }),
+					loser: (await User.findOne({ _id: meeting.game.currentGame.loser })).username,
 				},
 			]);
 
@@ -183,7 +183,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		if (result) {
 			io.sockets.to(meeting.meetingName).emit("visitSubway", [{ _id: data._id, stationName: data.stationName, changeLine: data.changeLine }]);
 		} else {
-			io.sockets.to(meeting.meetingName).emit("endSubway", [{ stationName: data.stationName, loser: User.findOne({ _id: meeting.game.currentGame.loser }) }]);
+			io.sockets.to(meeting.meetingName).emit("endSubway", [{ stationName: data.stationName, loser: (await User.findOne({ _id: meeting.game.currentGame.loser })).username }]);
 		}
 	});
 };
