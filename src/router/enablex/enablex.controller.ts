@@ -52,6 +52,13 @@ class EnablexController extends Controller {
 		};
 		return res.json((await API.post(`https://api.enablex.io/video/v1/rooms/${req.body.roomId}/tokens`, data)).data);
 	}
+	public async reset(req: Request, res: Response, next: NextFunction) {
+		let rooms = (await API.get("https://api.enablex.io/video/v1/rooms")).data.rooms;
+		for (let room of rooms) {
+			let result = (await API.delete(`https://api.enablex.io/video/v1/rooms/${room.room_id}`)).data;
+		}
+		res.send("OK");
+	}
 }
 
 export default new EnablexController();
