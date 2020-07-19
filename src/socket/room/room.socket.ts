@@ -13,7 +13,11 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		// socket 방 가입
 		socket.join(room.roomName);
 		// 룸 생성 성공 시 해당 룸 반환
-		socket.emit("createRoom", [room]);
+		socket.emit("createRoom", [
+			{
+				invitationCode: room.invitationCode,
+			},
+		]);
 		// 룸 생성 성공 시 해당 름 유저 정보 반환
 		socket.emit("getRoomMembers", await RoomManager.getRoomMembers(room.roomName));
 	});
@@ -30,7 +34,11 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		// socket 방 가입
 		socket.join(room.roomName);
 		// 룸 가입 성공 시 해당 룸 반환
-		socket.emit("joinRoom", [room]);
+		socket.emit("joinRoom", [
+			{
+				roomName: room.roomName,
+			},
+		]);
 		// 방에 가입된 모든 유저들에게 유저 정보 반환
 		io.sockets.to(room.roomName).emit("getRoomMembers", await RoomManager.getRoomMembers(room.roomName));
 	});
@@ -42,7 +50,11 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		// socket 방 탈퇴
 		socket.leave(room.roomName);
 		// 룸 탈퇴 성공 시 해당 룸 반환
-		socket.emit("leaveRoom", [room]);
+		socket.emit("leaveRoom", [
+			{
+				roomName: room.roomName,
+			},
+		]);
 		// 방에 가입된 모든 유저들에게 유저 정보 반환
 		io.sockets.to(room.roomName).emit("getRoomMembers", await RoomManager.getRoomMembers(room.roomName));
 	});

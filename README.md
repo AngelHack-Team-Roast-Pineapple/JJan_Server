@@ -11,12 +11,6 @@
 
 > socket.emit('createRoom')
 
-    roomName: string 방 이름;
-    users: ObjectID[]  접속중인 유저의 _id;
-    socketIdLink?: {
-    	user: ObjectID;
-    	socketId: string;
-    }[] 필요없는거임;
     invitationCode: string 초대코드;
 
 > io.sockets.to(room.roomName).emit('getRoomMembers')
@@ -33,12 +27,6 @@
 > socket.emit('joinRoom')
 
     roomName: string 방 이름;
-    users: ObjectID[]  접속중인 유저의 _id;
-    socketIdLink?: {
-    	user: ObjectID;
-    	socketId: string;
-    }[] 필요없는거임;
-    invitationCode: string 초대코드;
 
 > io.sockets.to(room.roomName).emit('getRoomMembers')
 
@@ -54,12 +42,6 @@
 > socket.emit('leaveRoom')
 
     roomName: string 방 이름;
-    users: ObjectID[]  접속중인 유저의 _id;
-    socketIdLink?: {
-    	user: ObjectID;
-    	socketId: string;
-    }[] 필요없는거임;
-    invitationCode: string 초대코드;
 
 > io.sockets.to(room.roomName).emit('getRoomMembers')
 
@@ -163,7 +145,6 @@
     word: String 말한 단어
     loser: 마실 사람
 
-
 -   startSubway
 
 > socket.on('startSubway')
@@ -198,4 +179,3 @@
 
     stationName: String 말한 역
     loser: 마실 사람
-
