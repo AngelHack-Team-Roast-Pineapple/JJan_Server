@@ -129,3 +129,73 @@
 > io.sockets.to(meetingName).emit("startVideoMeeting")
 
     roomId: string enablex 방 아이디
+
+-   startHunMinJeongEum
+
+> socket.on('startHunMinJeongEum')
+
+    meetingName: string 미팅 고유 이름
+    keyword: string 게임 시작 자음
+
+> io.sockets.to(meetingName).emit('startHunMinJeongEum') // suc
+
+    result: true
+
+> io.sockets.to(meetingName).emit('startHunMinJeongEum') // fail
+
+    result: flase
+
+-   speakHunMinJeongEum
+
+> socket.on('speakHunMinJeongEum')
+
+    _id: string 유저 고유 ID
+    meetingName: string 미팅 고유 이름
+    word: string 단어
+
+> io.sockets.to(meetingName).emit('speakHunMinJeoungEum') // 통과
+
+    _id: string 말한 사람 고유 ID
+    word: 말한 단어
+
+> io.sockets.to(meetingName).emit('endHunMinJeoungEum') // 탈락
+
+    word: String 말한 단어
+    loser: 마실 사람
+
+
+-   startSubway
+
+> socket.on('startSubway')
+
+    meetingName: string 미팅 고유 이름
+    keyword: string 게임 시작 자음
+
+> io.sockets.to(meetingName).emit('startSubway') // suc
+
+    result: true
+
+> io.sockets.to(meetingName).emit('startSubway') // fail
+
+    result: flase
+
+-   visitSubway
+
+> socket.on('visitSubway')
+
+    _id: string 유저 고유 ID
+    meetingName: string 미팅 고유 이름
+    stationName: string 역 이름
+    changeLine: string 환승 호선 ( 없다면 "" )
+
+> io.sockets.to(meetingName).emit('visitSubway') // 통과
+
+    _id: string 말한 사람 고유 ID
+    stationName: 말한 역
+    changeLine: 말한 환승 호선
+
+> io.sockets.to(meetingName).emit('endSubway') // 탈락
+
+    stationName: String 말한 역
+    loser: 마실 사람
+

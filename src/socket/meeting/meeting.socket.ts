@@ -138,9 +138,9 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 			meeting.startGame("훈민정음");
 			let hunMinJeongEum = meeting.game.currentGame as GameHunMinJeongEum;
 			hunMinJeongEum.setKeyword(data.keyword);
-			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", true);
+			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", [{ result: true }]);
 		} catch (e) {
-			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", false);
+			io.sockets.to(meeting.meetingName).emit("startHunMinJeongEum", [{ result: false }]);
 		}
 	});
 	socket.on("speakHunMinJeongEum", async (data) => {
@@ -148,7 +148,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let hunMinJeongEum = meeting.game.currentGame as GameHunMinJeongEum;
 		// 마실 사람 정해야함
 		let result = hunMinJeongEum.speakingWords(data._id, data.word);
-		if (result) io.sockets.to(meeting.meetingName).emit("speakHunMinJeoungEum", [data.word]);
+		if (result) io.sockets.to(meeting.meetingName).emit("speakHunMinJeoungEum", [{ _id: data._id, word: data.word }]);
 		else
 			io.sockets.to(meeting.meetingName).emit("endHunMinJeoungEum", [
 				{
@@ -167,9 +167,9 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 			meeting.startGame("지하철");
 			let subway = meeting.game.currentGame as GameSubway;
 			subway.setNowLine(data.nowLine);
-			io.sockets.to(meeting.meetingName).emit("startSubway", true);
+			io.sockets.to(meeting.meetingName).emit("startSubway", [{ result: true }]);
 		} catch (e) {
-			io.sockets.to(meeting.meetingName).emit("startSubway", false);
+			io.sockets.to(meeting.meetingName).emit("startSubway", [{ result: false }]);
 		}
 		let subway = meeting.game.currentGame as GameSubway;
 		// _id, 역 이름, 현재 라인, 바꿀 라인 ( 없으면 빈 문자열 )
@@ -180,7 +180,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let subway = meeting.game.currentGame as GameSubway;
 		let result = subway.visit(data._id, data.stationName, data.changeLine);
 		if (result) {
-			io.sockets.to(meeting.meetingName).emit("visitSubway", [data.stationName]);
+			io.sockets.to(meeting.meetingName).emit("visitSubway", [{ _id: data._id, stationName: data.stationName, changeLine: data.changeLine }]);
 		} else {
 			io.sockets.to(meeting.meetingName).emit("endSubway", [{ stationName: data.stationName, loser: meeting.game.currentGame.loser }]);
 		}
