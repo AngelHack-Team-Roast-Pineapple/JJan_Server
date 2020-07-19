@@ -9,6 +9,6 @@ router.get("/v1/rooms/:room_id", enablexController.getRoomInfo);
 router.patch("/v1/rooms/:room_id", enablexController.updateRoom);
 router.delete("/v1/rooms/:room_id", enablexController.deleteRoom);
 router.get("/v1/rooms/:room_id/users", enablexController.getUserInRoom);
-router.get("/v1/rooms/:room_id/tokens", enablexController.createToken);
+router.post("/v1/rooms/:room_id/tokens", enablexController.createToken);
 
 export default router;

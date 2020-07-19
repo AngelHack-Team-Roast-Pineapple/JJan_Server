@@ -19,6 +19,7 @@ class EnablexController extends Controller {
 	 * @param {NextFunction}next Express next
 	 */
 	public async createRoom(req: Request, res: Response, next: NextFunction) {
+		console.log(req.body);
 		return res.json((await API.post("https://api.enablex.io/video/v1/rooms", req.body)).data);
 	}
 	public async getRoomData(req: Request, res: Response, next: NextFunction) {
@@ -30,6 +31,7 @@ class EnablexController extends Controller {
 	}
 	public async updateRoom(req: Request, res: Response, next: NextFunction) {
 		// get, req.params.room_id
+		console.log(req.body);
 		return res.json((await API.patch(`https://api.enablex.io/video/v1/rooms/${req.params.room_id}`), req.body).data);
 	}
 	public async deleteRoom(req: Request, res: Response, next: NextFunction) {
@@ -42,6 +44,7 @@ class EnablexController extends Controller {
 	}
 	public async createToken(req: Request, res: Response, next: NextFunction) {
 		// get, req.params.room_id
+		console.log(req.body);
 		return res.json((await API.post(`https://api.enablex.io/video/v1/rooms/${req.params.room_id}/tokens`, req.body)).data);
 	}
 }
