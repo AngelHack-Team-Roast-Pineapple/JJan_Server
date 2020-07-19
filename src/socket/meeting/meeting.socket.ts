@@ -114,9 +114,10 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	// 게임 연결 시 io.sockets.to(meetingName)
 
 	// 룰렛
-	socket.on("startRoulette", async (data) => {
-		console.log("startRoulette : ", data);
-		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+	socket.on("startRoulette", async (meetingName) => {
+		console.log("startRoulette : ", meetingName);
+		let meeting = MeetingManager.findByMeetingName(meetingName);
+		console.log(meeting);
 		meeting.startGame("룰렛");
 		console.log(meeting.meetingName, "startRoulette emit");
 		io.sockets.to(meeting.meetingName).emit("startRoulette", [

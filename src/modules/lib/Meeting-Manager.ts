@@ -24,7 +24,7 @@ class Meeting {
 	}
 }
 class MeetingManager {
-	meetingList: Array<Meeting> = [];
+	meetingList: Meeting[] = [];
 
 	findByMeetingName(meetingName: string): Meeting {
 		return this.meetingList.find((meeting) => meeting.meetingName == meetingName);
