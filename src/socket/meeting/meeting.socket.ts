@@ -126,9 +126,11 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 			},
 		]);
 		console.log(meeting.meetingName, "endRoulette emit");
+		let l = (await User.findOne({ _id: meeting.game.currentGame.loser })).username;
+		console.log("loser: ", l);
 		io.sockets.to(meeting.meetingName).emit("endRoulette", [
 			{
-				loser: (await User.findOne({ _id: meeting.game.currentGame.loser })).username,
+				loser: l,
 			},
 		]);
 	});
