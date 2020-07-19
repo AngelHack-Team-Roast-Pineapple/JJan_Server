@@ -5,7 +5,7 @@ import { ObjectID } from "bson";
 abstract class Game {
 	abstract readonly gameName: string; // 게임 이름
 	member: ObjectID[] = []; // 게임 참가자
-	loser: ObjectID;
+	loser: Object;
 	isGameEnd: boolean = false;
 
 	init(member: ObjectID[]) {
@@ -37,10 +37,9 @@ export class GameHunMinJeongEum extends Game {
 	}
 
 	// init 함수
-	start() { 
-	}
+	start() {}
 	setKeyword(keyword) {
-		this.keyword = keyword
+		this.keyword = keyword;
 	}
 	speakingWords(_id: ObjectID, word: string) {
 		let consonants: string = word
@@ -125,8 +124,8 @@ export class GameSubway extends Game {
 			}
 		}
 	}
-	setNowLine (nowLine) {
-		this.nowLine = nowLine
+	setNowLine(nowLine) {
+		this.nowLine = nowLine;
 	}
 	init(stationInfo) {
 		this.nowLine = "";

@@ -3,6 +3,7 @@ import MeetingManager from "../../modules/lib/Meeting-Manager";
 import RoomManager, { Room } from "../../modules/lib/Room-Manager";
 import { GameHunMinJeongEum, GameSubway, GameRoulette } from "../../modules/lib/Game-Manager";
 import axios from "axios";
+import User from "../../schema/User";
 
 const matchingTeams: Room[] = [];
 
@@ -126,7 +127,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		console.log(meeting.meetingName, "endRoulette emit");
 		io.sockets.to(meeting.meetingName).emit("endRoulette", [
 			{
-				loser: meeting.game.currentGame.loser,
+				loser: User.findOne({ _id: meeting.game.currentGame.loser }),
 			},
 		]);
 	});
@@ -153,7 +154,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 			io.sockets.to(meeting.meetingName).emit("endHunMinJeoungEum", [
 				{
 					word: data.word,
-					loser: meeting.game.currentGame.loser,
+					loser: User.findOne({ _id: meeting.game.currentGame.loser }),
 				},
 			]);
 
@@ -182,7 +183,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		if (result) {
 			io.sockets.to(meeting.meetingName).emit("visitSubway", [{ _id: data._id, stationName: data.stationName, changeLine: data.changeLine }]);
 		} else {
-			io.sockets.to(meeting.meetingName).emit("endSubway", [{ stationName: data.stationName, loser: meeting.game.currentGame.loser }]);
+			io.sockets.to(meeting.meetingName).emit("endSubway", [{ stationName: data.stationName, loser: User.findOne({ _id: meeting.game.currentGame.loser }) }]);
 		}
 	});
 };
