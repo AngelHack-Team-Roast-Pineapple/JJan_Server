@@ -2,8 +2,15 @@ import { SocketRouter } from "../../modules/SocketIO-Manager";
 import MeetingManager from "../../modules/lib/Meeting-Manager";
 import RoomManager, { Room } from "../../modules/lib/Room-Manager";
 import { GameHunMinJeongEum, GameSubway, GameRoulette } from "../../modules/lib/Game-Manager";
+import axios from "axios";
 
 const matchingTeams: Room[] = [];
+
+const API = axios.create({
+	headers: {
+		Authorization: "Basic " + process.env.ENABLEX_TOKEN,
+	},
+});
 
 const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket) => {
 	socket.on("matchingMeeting", async (data) => {
@@ -20,22 +27,39 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 				if (room1 && room2) {
 					let meeting = MeetingManager.createMeeting(room1, room2);
 
-					console.log(
-						"split data1: ",
-						matchingTeams.splice(
-							matchingTeams.findIndex((r) => r.roomName == room1Name),
-							1
-						)
-					);
+					let roomData = {
+						name: meeting.meetingName,
+						settings: {
+							description: "JJan",
+							scheduled: false,
+							scheduled_time: "",
+							duration: 50,
+							participants: 10,
+							billing_code: 1234,
+							auto_recording: false,
+							active_talker: true,
+							quality: "HD",
+							wait_moderator: false,
+							adhoc: false,
+							mode: "group",
+						},
+						sip: {},
+						owner_ref: "xyz",
+					};
+					let room = (await API.post("https://api.enablex.io/video/v1/rooms", roomData)).data;
+
+					console.log(room);
 
 					io.sockets.to(room1Name).emit("matchingMeeting", [
 						{
 							meetingName: meeting.meetingName,
+							roomId: room.room_id,
 						},
 					]);
 					io.sockets.to(room2Name).emit("matchingMeeting", [
 						{
 							meetingName: meeting.meetingName,
+							roomId: room.room_id,
 						},
 					]);
 					console.log(room1Name, room2Name, "meeting created");
