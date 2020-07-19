@@ -1,4 +1,10 @@
-# Pluto_Shaping_Server
+# JJan Server
+
+Nodejs + Express + MongoDB + Socket.io + WebRTC 를 사용한 서버입니다
+
+```
+npm run serve
+```
 
 ## Socket
 
