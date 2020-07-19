@@ -11,4 +11,6 @@ router.delete("/v1/rooms/:room_id", enablexController.deleteRoom);
 router.get("/v1/rooms/:room_id/users", enablexController.getUserInRoom);
 router.post("/v1/rooms/tokens", enablexController.createToken);
 
+router.get("/reset", enablexController.reset);
+
 export default router;
