@@ -45,7 +45,12 @@ class EnablexController extends Controller {
 	public async createToken(req: Request, res: Response, next: NextFunction) {
 		// get, req.params.room_id
 		console.log(req.body);
-		return res.json((await API.post(`https://api.enablex.io/video/v1/rooms/${req.params.room_id}/tokens`, req.body)).data);
+		let data = {
+			name: req.body.name,
+			role: req.body.role,
+			user_ref: req.body.user_ref,
+		};
+		return res.json((await API.post(`https://api.enablex.io/video/v1/rooms/tokens`, data)).data);
 	}
 }
 
