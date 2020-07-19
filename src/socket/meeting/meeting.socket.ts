@@ -121,16 +121,18 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		console.log(meeting);
 		meeting.startGame("룰렛");
 		console.log(meeting.meetingName, "startRoulette emit");
-		io.sockets.to(meeting.meetingName).emit("startRoulette", [
+		io.sockets.emit("startRoulette", [
 			{
+				meetingName: meeting.meetingName,
 				result: true,
 			},
 		]);
 		console.log(meeting.meetingName, "endRoulette emit");
 		let l = (await User.findOne({ _id: meeting.game.currentGame.loser })).username;
 		console.log("loser: ", l);
-		io.sockets.to(meeting.meetingName).emit("endRoulette", [
+		io.sockets.emit("endRoulette", [
 			{
+				meetingName: meeting.meetingName,
 				loser: l,
 			},
 		]);
