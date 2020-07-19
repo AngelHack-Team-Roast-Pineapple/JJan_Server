@@ -63,6 +63,20 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		console.log("joinMeeting : ", data);
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		socket.join(meeting.meetingName);
+		socket.emit("joinMeeting", [
+			{
+				meetingName: meeting.meetingName,
+			},
+		]);
+	});
+	socket.on("startVideoMeeting", async (data) => {
+		console.log("startVideoMeeting : ", data);
+		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+		io.sockets.to(meeting.meetingName).emit("startVideoMeeting", [
+			{
+				roomId: data.roomId,
+			},
+		]);
 	});
 	// socket.on("startGameMeeting", async (data) => {
 	// 	console.log("startGameMeeting : ", data);
@@ -80,7 +94,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
 		meeting.startGame("룰렛");
 		console.log(meeting.meetingName, "startRoulette emit");
-		io.sockets.emit("startRoulette", [
+		io.sockets.to(meeting.meetingName).emit("startRoulette", [
 			{
 				result: true,
 			},

@@ -102,6 +102,10 @@
 
     meetingName: string 미팅 고유 이름
 
+> socket.emit('joinMeeting')
+
+    meetingName: string 미팅 고유 이름
+
 -   startRoulette
 
 > socket.on('startRoulette')
@@ -116,3 +120,14 @@
 > io.sockets.to(meetingName).emit("endRoulette")
 
     loser: string 마실 사람
+
+-   startVideoMeeting
+
+> socket.on('startVideoMeeting')
+
+    meetingName: string 미팅 고유 이름
+    roomId: string enablex 방 아이디
+
+> io.sockets.to(meetingName).emit("startVideoMeeting")
+
+    roomId: string enablex 방 아이디
