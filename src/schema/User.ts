@@ -32,7 +32,7 @@ export const UserSchema: Schema = new Schema({
 	loginType: { type: String, default: "local" },
 	username: { type: String, default: "User" },
 	email: { type: String, default: "" },
-	sex: { type: String, default: "" },
+	sex: { type: String, default: "male" },
 	age: { type: Number, default: 18 },
 	password: { type: String, required: true, select: false },
 	userID: { type: String, required: true, unique: true },
