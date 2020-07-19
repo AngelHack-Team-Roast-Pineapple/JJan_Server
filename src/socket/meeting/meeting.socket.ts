@@ -46,7 +46,7 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 						sip: {},
 						owner_ref: "xyz",
 					};
-					let room = (await API.post("https://api.enablex.io/video/v1/rooms", roomData)).data;
+					let room = (await API.post("https://api.enablex.io/video/v1/rooms", roomData)).data.room;
 
 					console.log(room);
 
