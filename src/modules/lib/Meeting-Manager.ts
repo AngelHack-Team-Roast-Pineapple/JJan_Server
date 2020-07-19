@@ -36,18 +36,15 @@ class MeetingManager {
 		function createRandomNumber(n: number = 6) {
 			return (+new Date() * Math.floor((1 + Math.random()) * 10)).toString().slice(-n);
 		}
-		if (this.findByMeetingRooms(room1) || this.findByMeetingRooms(room2)) throw "이미 존재하는 미팅입니다.";
-		else {
-			let meeting: Meeting = new Meeting({
-				meetingName: createRandomNumber(8),
-				room1,
-				room2,
-				game: new GameManager(),
-				users: room1.users.concat(room2.users),
-			});
-			this.meetingList.push(meeting);
-			return meeting;
-		}
+		let meeting: Meeting = new Meeting({
+			meetingName: createRandomNumber(8),
+			room1,
+			room2,
+			game: new GameManager(),
+			users: room1.users.concat(room2.users),
+		});
+		this.meetingList.push(meeting);
+		return meeting;
 	}
 }
 
