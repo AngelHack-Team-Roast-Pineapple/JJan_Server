@@ -14,6 +14,8 @@ import ProjectInitializeManager from "./modules/Project-Initialize-Manager";
 import MongoDBHelper from "./modules/MongoDB-Helper";
 import RedisHelper from "./modules/Redis-Helper";
 
+process.setMaxListeners(20);
+
 const app: express.Application = express(); // 서버 객체
 const port = process.env.PORT || 3000;
 const NODE_ENV = ProjectInitializeManager.env;
