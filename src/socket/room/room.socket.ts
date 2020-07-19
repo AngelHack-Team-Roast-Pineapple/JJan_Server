@@ -2,6 +2,9 @@ import { SocketRouter } from "../../modules/SocketIO-Manager";
 import RoomManager from "../../modules/lib/Room-Manager";
 
 const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket) => {
+	io.on("connection", (data) => {
+		console.log("CONNECT USER");
+	});
 	// 방생성
 	socket.on("createRoom", async (data) => {
 		console.log("createRoom : ", data);
@@ -47,9 +50,6 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 	// TODO: 룸 정보 업데이트 구현해야함
 
 	// 연결이 끊어질 시 모든 방에서 나감
-	socket.on("connection", async (data) => {
-		console.log("CONNECT :", socket.id);
-	});
 	socket.on("disconnect", async (data) => {
 		socket.leaveAll();
 		RoomManager.resetUser(socket.id);
