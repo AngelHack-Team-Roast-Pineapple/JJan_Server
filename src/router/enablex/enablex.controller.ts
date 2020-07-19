@@ -50,6 +50,7 @@ class EnablexController extends Controller {
 			role: req.body.role,
 			user_ref: req.body.user_ref,
 		};
+		console.log(data);
 		return res.json((await API.post(`https://api.enablex.io/video/v1/rooms/${req.body.roomId}/tokens`, data)).data);
 	}
 	public async reset(req: Request, res: Response, next: NextFunction) {
