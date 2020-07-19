@@ -3,7 +3,7 @@ import RoomManager from "../../modules/lib/Room-Manager";
 
 const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket) => {
 	io.on("connection", (data) => {
-		console.log("CONNECT USER");
+		console.log("CONNECT USER", socket.id);
 	});
 	// 방생성
 	socket.on("createRoom", async (data) => {

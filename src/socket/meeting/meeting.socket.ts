@@ -85,8 +85,9 @@ const socketRouter: SocketRouter = (io: SocketIO.Server, socket: SocketIO.Socket
 		]);
 	});
 	socket.on("joinMeeting", async (data) => {
-		console.log("joinMeeting : ", data);
+		console.log("joinMeeting : ", data, socket.id);
 		let meeting = MeetingManager.findByMeetingName(data.meetingName);
+		socket.leaveAll();
 		socket.join(meeting.meetingName);
 		socket.emit("joinMeeting", [
 			{
